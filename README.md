@@ -15,7 +15,7 @@ Official codebase for the paper:
 
 These methods enable general binding affinity-guided molecular design using diffusion models.
 
-> This code builds heavily on [TargetDiff](https://github.com/guanjq/targetdiff). We thank the authors for their contributions.
+> This code builds heavily on [TargetDiff](https://github.com/guanjq/targetdiff) and [DecompDiff](https://github.com/bytedance/DecompDiff). We thank the authors for their contributions.
 
 ---
 
@@ -35,7 +35,7 @@ conda env create -f BADGER.yml
 
 #### 📁 Data
 
-Please follow the instructions from [TargetDiff](https://github.com/guanjq/targetdiff).  
+Please follow the instructions from [DecompDiff](https://github.com/bytedance/DecompDiff).  
 Place the downloaded data under the `./data` directory.
 
 #### 🧠 Checkpoints
@@ -134,7 +134,7 @@ python scripts/sample_diffusion_decomp.py configs/sampling_drift.yml \
 
 ```bash
 python scripts/evaluate_diffusion.py output_eva_diff/decompdiff_paper_mol/unguide_ref_prior \
-  --docking_mode vina_dock --protein_root data/test_set
+  --docking_mode {vina_score,vina_dock} --protein_root data/test_set
 ```
 
 ---
