@@ -95,6 +95,9 @@ python scripts/sample_diffusion_clsf_free.py configs/sample_clsf_free.yml -si {u
 Download from:  
 **[Zenodo placeholder link]** (to be updated)
 
+Or contact:
+yue_jian@berkeley.edu
+
 ### 2. Evaluate Your Own Samples
 
 #### Get Vina-related Metrics
