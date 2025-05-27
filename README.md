@@ -62,6 +62,12 @@ python scripts/sample_diffusion_decomp.py configs/sampling_drift.yml \
 
 #### Evaluate Samples
 
+##### Use Pre-Sampled Molecules (for reproduction)
+
+Download from:  
+**[Zenodo placeholder link]** (to be updated)
+
+
 ```bash
 python scripts/evaluate_diffusion.py output_eva_diff/decompdiff_paper_mol/unguide_ref_prior \
   --docking_mode {vina_dock,vina_score} --protein_root {path_to_protein_root e.g. data/test_set}
