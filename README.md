@@ -113,28 +113,11 @@ python scripts/posecheck.py
 
 ---
 
-## 🧪 DecompDiff Submodule
+## 🧪 DecompDiff Part
 
-Please refer to the submodule-linked repo for additional code and data used in DecompDiff experiments.
-
-#### Train Classifier
-
+Please switch to decompdiff branch and reproduce the result according the instruction there
 ```bash
-python scripts/train_classifier.py configs/training_classifier.yml
-```
-
-#### Sample with Classifier
-
-```bash
-python scripts/sample_diffusion_decomp.py configs/sampling_drift.yml \
-  --outdir output_eva_diff/unguided/beta --prior_mode beta_prior
-```
-
-#### Evaluate Samples
-
-```bash
-python scripts/evaluate_diffusion.py output_eva_diff/decompdiff_paper_mol/unguide_ref_prior \
-  --docking_mode {vina_score,vina_dock} --protein_root data/test_set
+git checkout decompdiff
 ```
 
 ---
