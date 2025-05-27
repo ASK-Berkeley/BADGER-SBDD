@@ -1,0 +1,154 @@
+data:
+  name: pl
+  path: ./data/crossdocked_v1.1_rmsd1.0_processed
+  split: ./data/split_by_name.pt
+  mode: full
+  include_dummy_atoms: False
+  version: ref_prior_aromatic
+  prior_mode: ref_prior
+  transform:
+    add_ord_feat: False
+    ligand_atom_mode: basic
+    ligand_bond_mode: fc
+    max_num_arms: 10
+    random_rot: False
+
+model:
+  checkpoint: pretrained_models/uni_o2_bond.pt
+  model_mean_type: C0  # ['noise', 'C0']
+
+  beta_schedule: sigmoid
+  beta_start: 1.e-7
+  beta_end: 2.e-3
+  v_beta_schedule: cosine
+  v_beta_s: 0.01
+  num_diffusion_timesteps: 1000
+
+  v_mode: categorical
+  v_net_type: mlp
+  loss_pos_type: mse  # ['mse', 'kl']
+  sample_time_method: symmetric  # ['importance', 'symmetric']
+
+  bond_diffusion: True
+  bond_net_type: lin
+  num_bond_classes: 5
+  prior_types: False
+  h_node_in_bond_net: True
+
+  add_prior_node: False
+
+  time_emb_dim: 0
+  time_emb_mode: simple
+  center_pos_mode: protein
+
+  node_indicator: True
+  model_type: egnn
+  num_blocks: 1
+  num_layers: 6
+  hidden_dim: 128
+  n_heads: 16
+  edge_feat_dim: 4  # edge type feat
+  num_r_gaussian: 20
+  knn: 32 # !
+  act_fn: relu
+  norm: True
+  cutoff_mode: knn  # [radius, none]
+  r_max: 10.
+  x2h_out_fc: False
+  sync_twoup: False
+  pool: mean # [mean, max, add]
+
+
+model_old:
+  checkpoint: pretrained_models/uni_o2_bond.pt
+  model_mean_type: C0  # ['noise', 'C0']
+  beta_schedule: sigmoid
+  beta_start: 1.e-7
+  beta_end: 2.e-3
+  v_beta_schedule: cosine
+  v_beta_s: 0.01
+  num_diffusion_timesteps: 1000
+  loss_v_weight: 100.
+  sample_time_method: symmetric  # ['importance', 'symmetric']
+
+  time_emb_dim: 0
+  time_emb_mode: simple
+  center_pos_mode: protein
+  loss_pos_type: mse  # ['mse', 'kl']
+  node_indicator: True
+  model_type: egnn # [uni_o2, egnn]
+  num_layers: 2
+  hidden_dim: 128
+  edge_feat_dim: 4  # edge type feat
+  num_r_gaussian: 20
+  knn: 32 # was 32
+  pool: add # [mean, max, add]
+  cutoff_mode: knn  # [radius, none]
+
+  ignore_pos: True
+  num_encoder: 1
+  num_heads: 8
+  num_ffn: 128
+  act_fn_ecd: ReLU
+  dropout_r: 0.1
+  num_ffn_head: 256
+
+sample:
+  ckpt: ./load_ckpt/small_EGNN_20ep_decomp_train # [ ./load_ckpt/small_EGNN_20ep_decomp_train,./load_ckpt/sEGNN_40,./load_ckpt/sEGNN_60]
+  classifier_type: o
+  scale_factor: 100. # no guidance applied
+  delta_context: -40
+  clip: 1e-3
+  seed: 2021
+  gen_mode: complete
+  init_pos_mode: protein_center
+  prior_mode: ref_prior
+  num_samples: 100
+  num_steps: 1000
+  pos_only: False
+  center_pos_mode: protein
+  sample_num_atoms: prior
+  arms_num_atoms_config: ./utils/evaluation/arm_num_config.pkl
+  scaffold_num_atoms_config: ./utils/evaluation/scaffold_num_config.pkl
+  energy_drift:
+    - type: armsca_prox
+      min_d: 1.2
+      max_d: 1.9
+    - type: clash
+      sigma: 2
+      gamma: 4
+
+
+train:
+  seed: 2021
+  loss_weights:
+    pos: 1.0
+    v: 100.0
+    bond: 100.0
+
+  batch_size: 16
+  num_workers: 4
+  n_acc_batch: 1
+  max_iters: 100
+  val_freq: 2000
+  pos_noise_std: 0.1
+  prior_noise_std: 0.5
+  max_grad_norm: 8.0
+  bond_loss_weight: 1.0
+  ckpt_freq: 5
+  Lcutoff: -100000. # [-10.,-1000000.]
+  Rcutoff: 0.
+  loss_weight: 0.5
+  loss:
+    type: MSE # [MAE, MSE]
+  optimizer:
+    type: adam
+    lr: 5.e-4
+    weight_decay: 0
+    beta1: 0.95
+    beta2: 0.999
+  scheduler:
+    type: plateau
+    factor: 0.6
+    patience: 2
+    min_lr: 1.e-6
