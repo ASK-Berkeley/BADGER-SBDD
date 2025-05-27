@@ -66,12 +66,14 @@ python scripts/sample_diffusion_decomp.py configs/sampling_drift.yml \
 
 Download from:  
 **[Zenodo placeholder link]** (to be updated)
+
 Or contact:
 yue_jian@berkeley.edu
 
 
+##### Run evaluation
 ```bash
-python scripts/evaluate_diffusion.py output_eva_diff/decompdiff_paper_mol/unguide_ref_prior \
+python scripts/evaluate_diffusion.py {path_to_molecules_directory} \
   --docking_mode {vina_dock,vina_score} --protein_root {path_to_protein_root e.g. data/test_set}
 ```
 
