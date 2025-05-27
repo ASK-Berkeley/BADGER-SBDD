@@ -66,6 +66,8 @@ python scripts/sample_diffusion_decomp.py configs/sampling_drift.yml \
 
 Download from:  
 **[Zenodo placeholder link]** (to be updated)
+Or contact:
+yue_jian@berkeley.edu
 
 
 ```bash
