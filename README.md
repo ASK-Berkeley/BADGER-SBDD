@@ -41,7 +41,7 @@ Place the downloaded data under the `./data` directory.
 #### 🧠 Checkpoints
 
 Download pretrained checkpoints from:  
-**[Zenodo placeholder link]** (to be updated)
+[checkpoints link](https://doi.org/10.5281/zenodo.15523148)
 
 ---
 
